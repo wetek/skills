@@ -8,7 +8,7 @@ On conflict, higher wins:
 
 1. Compiled contracts, schemas, enums, and state machines
 2. The write path that mutates the system of record
-3. Source delivery (outbox, CLI deliver, seed)
+3. Source delivery (outbox, CLI, seed, cron)
 4. Deploy config
 5. ADRs
 6. Product READMEs
@@ -31,6 +31,8 @@ Reading order. Pointers. No decision trees, env dumps, or wave history.
 **CONTEXT.md.** Term, definition, `_Avoid_` list. One or two sentences.
 Define what the thing is, not what it does. No implementation. Single
 context at the repo root, or a `CONTEXT-MAP.md` that points at several.
+When you add or sharpen a term, follow `CONTEXT-FORMAT.md` from the
+`domain-modeling` companion.
 
 **docs/architecture.md.** How data moves now. Who may write what. Diagrams
 tied to live seams. Point to ADRs for why, skipped-work for not-now,
@@ -38,12 +40,14 @@ product READMEs for how to run.
 
 **docs/adr/.** Sequential `0001-slug.md`. A paragraph is enough. Optional
 considered options and consequences only when they add information.
+When you offer an ADR, follow `ADR-FORMAT.md` from the
+`domain-modeling` companion.
 
 **Product README.** Setup, env, commands, owned schema. Intro: this product
 is part of the system; read CONTEXT and architecture first.
 
-**Ops report.** Dated aggregate counts and fingerprints. No patient values.
-Do not copy those counts into architecture.
+**Ops report.** Dated aggregate counts and fingerprints. No secrets or
+personal data. Do not copy those counts into architecture.
 
 **Deploy notes.** Projects, databases, secrets, migrate, seed, cron. No
 domain lecture.
@@ -56,5 +60,5 @@ must not keep a parallel leftover list.
 - How-to-run steps in architecture
 - Schemas, routes, or table names in CONTEXT
 - Aspirational boxes on a current-state diagram
-- Eligibility rules or import counts copied out of their specialty docs
+- Specialty counts or rule tables copied out of their own docs
 - Treating a plan checkbox as a deployed fact

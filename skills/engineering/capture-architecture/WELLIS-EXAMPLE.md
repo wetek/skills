@@ -1,9 +1,9 @@
-# Wellis example
+# Worked example
 
-This is how `capture-architecture` was derived. Use it as a worked
+This is one capture that produced this skill. Use it as a worked
 example, not as a template to copy into another product.
 
-## What Wellis is
+## What that system was
 
 A patient information system for medically supervised weight care. Three
 products share one domain:
@@ -18,7 +18,7 @@ write the console database.
 
 ## Plan history the capture had to read
 
-Plans 001 through 005 live under `.cursor/plans`. Several early choices
+Plans 001 through 005 lived under `.cursor/plans`. Several early choices
 were later reversed. A capture that read only the latest README would have
 missed why.
 

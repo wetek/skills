@@ -16,7 +16,7 @@ fragments. It ignores `http`, `https`, and `mailto` links. A missing file
 or unknown fragment is a failure.
 
 After a heading rename, grep the old slug before relying on the script.
-Human-written `#whats-left` will not match `What we skipped`.
+A hand-written `#whats-left` will not match `What we skipped`.
 
 ## Code to docs
 
@@ -28,7 +28,7 @@ Build a matrix for this repo. Typical rows:
 | Workflow edges | state diagram | adjacency map |
 | Human work kinds | reviewer table | review item types |
 | Seed or deliver behavior | product README | seed command |
-| Deploy secrets and cron | deploy notes | `vercel.json` or compose file |
+| Deploy secrets and cron | deploy notes | deploy config |
 | Who may write the system of record | ADR plus architecture | auth and API handler |
 
 If a cell disagrees, the ranking in [DOC-LAYERS.md](DOC-LAYERS.md) decides.
@@ -37,8 +37,7 @@ If a cell disagrees, the ranking in [DOC-LAYERS.md](DOC-LAYERS.md) decides.
 
 Grep and delete or rewrite:
 
-- "shared database" after the system split stores
-- "maps artifacts" after seed only provisions credentials
+- topology the code already left behind
 - leftover servers described as the live path
 - plan language presented as current topology
 - CONTEXT `_Avoid_` terms used as primary names
@@ -52,4 +51,5 @@ the user asked.
 ## Vocabulary
 
 Primary terms in diagrams and headings must exist in CONTEXT, or CONTEXT
-must gain them in the same pass.
+must gain them in the same pass. Use the `domain-modeling` companion
+when you add a term.

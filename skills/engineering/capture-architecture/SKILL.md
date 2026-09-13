@@ -1,34 +1,50 @@
 ---
 name: capture-architecture
 description: >-
-  Capture or refresh system architecture documentation from live code.
+  Reconstruct or refresh system documentation from live code.
   Builds a README-first reading path, current-state diagrams, a domain
-  glossary, ADRs when they earn their keep, and a deferred-work page.
+  glossary, ADRs only when they earn their keep, and a skipped-work page.
   Use when creating architecture docs from scratch, updating docs after
-  the codebase changed, reconciling docs with ingestion or deployment,
-  or running a periodic docs refresh.
+  the codebase changed, or running a periodic docs refresh.
 disable-model-invocation: true
 ---
 
 # Capture architecture
 
-Reconstruct how the system works from code, then write or refresh the docs
-so a first-time GitHub reader can follow them. Narrative never invents
-behavior. Plans are history until code confirms them.
+Read the code. Write or refresh the docs so a first-time GitHub reader
+can follow them. Narrative never invents behavior. Plans are history
+until code confirms them.
 
-If [domain-modeling](https://github.com/mattpocock/skills/tree/main/skills/engineering/domain-modeling)
-is installed, use it when a glossary term or ADR must be invented or
-sharpened. If
-[codebase-design](https://github.com/mattpocock/skills/tree/main/skills/engineering/codebase-design)
-is installed, use its module and seam vocabulary inside a product. This
-skill stays on system topology, write paths, and the reading path.
+## Companions in this catalog
+
+This skill does not fetch other catalogs. Load these shipped copies
+when the matching work comes up.
+
+Find a companion by name. After install, skills sit as siblings under
+`.agents/skills/<name>/`. In this repository, engineering copies live
+under `skills/engineering/` and productivity copies under
+`skills/productivity/`.
+
+| When | Skill |
+| --- | --- |
+| A glossary term or ADR must be invented or sharpened | `domain-modeling` (`CONTEXT-FORMAT.md`, `ADR-FORMAT.md`) |
+| A product or package needs module and seam language | `codebase-design` |
+| Any sentence you are about to commit to a `*.md` file | `unslop` |
+| The user wants to stress-test the picture before you write | `grilling` |
+
+If a companion directory is missing from this install, do that slice
+with the rules in this folder and say so in the report. Do not clone
+another GitHub repository to recover it.
+
+This skill stays on system topology, write paths, and the reading path.
+It does not replace domain-modeling or codebase-design.
 
 ## Mode
 
 **Create** when the repo has no architecture reading path.
 **Refresh** when `README.md`, `docs/`, or product READMEs already exist.
-Refresh is the common case. Do not wipe working docs. Diff claims against
-them, then edit.
+Refresh is the common case. Do not wipe working docs. Diff claims
+against them, then edit.
 
 Copy this checklist and keep it current:
 
@@ -50,14 +66,13 @@ Read, do not skim:
 
 - Root `README.md`, `CONTEXT.md` or `CONTEXT-MAP.md`, everything under `docs/`
 - Every product or package README
-- ADRs, skipped-work or deferred pages, deploy notes, import or ops reports
-- Cursor or agent plans (`.cursor/plans`, `docs/plans`, work logs)
-- Live write paths: shared contracts, ingest or sync code, workflow machines,
-  seed and delivery commands, schema, deploy config (`vercel.json`,
-  Docker Compose, env examples)
+- ADRs, skipped-work pages, deploy notes, ops or import reports
+- Agent plans (`.cursor/plans`, `docs/plans`, work logs)
+- Live write paths: shared contracts, APIs, workers, workflow machines,
+  seed and delivery commands, schema, deploy config
 
-Plans are suspect history. A later plan can reverse an earlier one. The
-oldest plan is not current architecture.
+Plans are suspect history. A later plan can reverse an earlier one.
+The oldest plan is not current architecture.
 
 ## 2. Rank sources
 
@@ -65,7 +80,7 @@ On conflict, higher wins:
 
 1. Compiled contracts, schemas, enums, and state machines
 2. The write path that mutates the system of record
-3. Source delivery (outbox, CLI deliver, seed)
+3. Source delivery (outbox, CLI, seed, cron)
 4. Deploy config
 5. ADRs (durable intent; if code diverged, fix code or supersede the ADR)
 6. Product READMEs (how to run that product)
@@ -86,7 +101,7 @@ From code, write a claim list before editing docs:
 - Trust boundaries (auth, tokens, public vs private)
 - Write paths and their idempotency rules
 - Workflows and illegal transitions
-- Review or human-decision kinds
+- Human-decision kinds, if any
 - Deployment topology and secrets
 - Deferred work the code still does not do
 
@@ -120,15 +135,18 @@ each fact in one place:
 | Skipped-work page | Noticed and not built. Not current architecture |
 
 ADR gate: hard to reverse, surprising without context, and a real
-trade-off. Skip the ADR if any of the three is missing.
+trade-off. Skip the ADR if any of the three is missing. When you do
+write one, use the domain-modeling format.
 
-Do not keep a "what's left" dump inside architecture. Point at the
+Do not keep a leftover dump inside architecture. Point at the
 skipped-work page.
 
 Edit order: glossary terms if needed, architecture, ADR if warranted,
 README overview, docs index, product See also blocks, deploy and ops
 pages only if those claims changed, skipped-work for deferred items
 removed from architecture.
+
+Run unslop on every paragraph you add or rewrite.
 
 ## 6. Draw diagrams
 
@@ -166,8 +184,8 @@ Fix every broken relative path and heading fragment before finishing.
 
 More checks: [DRIFT-CHECKS.md](DRIFT-CHECKS.md)
 
-Prose: short sentences, active voice, no em dashes. Do not commit unless
-asked.
+Prose: short sentences, active voice, no em dashes. Do not commit
+unless asked.
 
 ## 9. Report
 
@@ -177,8 +195,11 @@ When done, say:
 - Files added or changed
 - Claims that contradicted docs, and which source won
 - ADRs offered or skipped, with the gate result
+- Companions you loaded, and any that were missing
 - Unknowns still unresolved
 - Link-check result
 - Remaining work, on the skipped-work page, not presented as current
 
-A worked example from the Wellis capture: [WELLIS-EXAMPLE.md](WELLIS-EXAMPLE.md)
+A worked example from one capture lives in
+[WELLIS-EXAMPLE.md](WELLIS-EXAMPLE.md). Do not copy its product names
+into another repository.
