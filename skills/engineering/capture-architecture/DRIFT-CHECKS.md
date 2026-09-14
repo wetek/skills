@@ -7,8 +7,10 @@ Run these after every capture. Fail closed on broken links.
 From this skill directory, with `--root` set to the repository being documented:
 
 ```sh
-python3 scripts/check-markdown-links.py --root <repo-root>
+python3 -B scripts/check-markdown-links.py --root <repo-root>
 ```
+
+`-B` is PYTHONDONTWRITEBYTECODE. Same check, no `__pycache__` next to the script. The verify step must not leave skill-directory artifacts.
 
 The script resolves relative Markdown targets and GitHub-style heading fragments. It ignores `http`, `https`, and `mailto` links. A missing file or unknown fragment is a failure.
 

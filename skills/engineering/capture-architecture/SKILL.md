@@ -95,8 +95,10 @@ Run unslop on every paragraph you add or rewrite. Write the stamp last. The form
 Walk the path as a first-time reader. Spot-check each diagram against one symbol. Run the link checker from this skill directory:
 
 ```sh
-python3 scripts/check-markdown-links.py --root <repo-root>
+python3 -B scripts/check-markdown-links.py --root <repo-root>
 ```
+
+`-B` is PYTHONDONTWRITEBYTECODE. Same check, no `__pycache__` next to the script. The verify step must not leave skill-directory artifacts.
 
 Fix every broken path and fragment, then run the checks in [DRIFT-CHECKS.md](DRIFT-CHECKS.md). Do not commit unless asked. Report:
 
