@@ -39,7 +39,7 @@ install the whole catalog.
 
 ### Engineering
 
-- [capture-architecture](skills/engineering/capture-architecture/SKILL.md): reconstruct or refresh system documentation from live code
+- [capture-architecture](skills/engineering/capture-architecture/SKILL.md): write or refresh architecture docs from live code, incrementally after the first run
 - [code-review](skills/engineering/code-review/SKILL.md): review a diff on standards and spec in parallel
 - [codebase-design](skills/engineering/codebase-design/SKILL.md): deep modules, seams, and testable interfaces
 - [diagnosing-bugs](skills/engineering/diagnosing-bugs/SKILL.md): diagnosis loop for hard bugs

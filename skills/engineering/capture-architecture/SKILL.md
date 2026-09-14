@@ -1,205 +1,110 @@
 ---
 name: capture-architecture
-description: >-
-  Reconstruct or refresh system documentation from live code.
-  Builds a README-first reading path, current-state diagrams, a domain
-  glossary, ADRs only when they earn their keep, and a skipped-work page.
-  Use when creating architecture docs from scratch, updating docs after
-  the codebase changed, or running a periodic docs refresh.
+description: 'Write or refresh architecture docs from live code. Builds a README-first reading path, a domain glossary, current-state diagrams, ADRs that pass a gate, and a "where new code goes" section. Refreshes incrementally from the last captured commit when a stamp exists. Use when a repo has no architecture docs, when docs drifted from code, or on a periodic docs refresh.'
 disable-model-invocation: true
 ---
 
-# Capture architecture
+# Capture Architecture
 
-Read the code. Write or refresh the docs so a first-time GitHub reader
-can follow them. Narrative never invents behavior. Plans are history
-until code confirms them.
+Read the code, then write or refresh the docs so a first-time reader can follow them. Docs describe the current state. Every claim points at a file and a symbol. Plans are history until code confirms them.
 
-## Companions in this catalog
+## Modes
 
-This skill does not fetch other catalogs. Load these shipped copies
-when the matching work comes up.
+- **Create**: the repo has no architecture reading path. Read everything.
+- **Full refresh**: docs exist, but there is no stamp or the stamp is unusable. Read everything, then diff against the docs.
+- **Incremental refresh**: docs exist and carry a usable stamp. Read what changed since that commit. Rules in [REFRESH.md](REFRESH.md).
 
-Find a companion by name. After install, skills sit as siblings under
-`.agents/skills/<name>/`. In this repository, engineering copies live
-under `skills/engineering/` and productivity copies under
-`skills/productivity/`.
+Refresh is the common case. Never wipe working docs. Diff, then edit.
 
-| When | Skill |
-| --- | --- |
-| A glossary term or ADR must be invented or sharpened | `domain-modeling` (`CONTEXT-FORMAT.md`, `ADR-FORMAT.md`) |
-| A product or package needs module and seam language | `codebase-design` |
-| Any sentence you are about to commit to a `*.md` file | `unslop` |
-| The user wants to stress-test the picture before you write | `grilling` |
+## Companions
 
-If a companion directory is missing from this install, do that slice
-with the rules in this folder and say so in the report. Do not clone
-another GitHub repository to recover it.
+Skills sit as siblings after install (`.agents/skills/<name>/`; in this repository, `skills/engineering/` and `skills/productivity/`).
 
-This skill stays on system topology, write paths, and the reading path.
-It does not replace domain-modeling or codebase-design.
+- **domain-modeling** when a glossary term or ADR needs writing (`CONTEXT-FORMAT.md`, `ADR-FORMAT.md`)
+- **codebase-design** when "where new code goes" needs module and seam vocabulary
+- **unslop** on every sentence you write to a `*.md` file
+- **grilling** when the user wants to stress-test the picture first
 
-## Mode
+If a companion is missing, do that slice with the rules in this folder and say so in the report. Do not clone another repository to fetch it.
 
-**Create** when the repo has no architecture reading path.
-**Refresh** when `README.md`, `docs/`, or product READMEs already exist.
-Refresh is the common case. Do not wipe working docs. Diff claims
-against them, then edit.
+## Process
 
 Copy this checklist and keep it current:
 
 ```
+- [ ] Scope
 - [ ] Inventory
-- [ ] Rank sources
-- [ ] List claims
+- [ ] Claims
 - [ ] Diff docs
-- [ ] Edit layers
-- [ ] Draw diagrams
-- [ ] Link the path
-- [ ] Verify
-- [ ] Report
+- [ ] Write
+- [ ] Verify and report
 ```
 
-## 1. Inventory
+### Scope
 
-Read, do not skim:
+Pick the mode with the stamp rules in [REFRESH.md](REFRESH.md). Tell the user which mode you are in before you read code.
+
+### Inventory
+
+Docs are cheap. Read all of them, in every mode:
 
 - Root `README.md`, `CONTEXT.md` or `CONTEXT-MAP.md`, everything under `docs/`
 - Every product or package README
-- ADRs, skipped-work pages, deploy notes, ops or import reports
+- ADRs, deploy notes, contributing guides
 - Agent plans (`.cursor/plans`, `docs/plans`, work logs)
-- Live write paths: shared contracts, APIs, workers, workflow machines,
-  seed and delivery commands, schema, deploy config
+
+Code is the expensive part. In Create and Full refresh, read the files that prove each category in [CLAIMS.md](CLAIMS.md): contracts, schemas, entry points, handlers, workers, boundary configs, deploy config, test setup. In Incremental refresh, read only what REFRESH.md scopes.
 
 Plans are suspect history. A later plan can reverse an earlier one.
-The oldest plan is not current architecture.
 
-## 2. Rank sources
+### Claims
 
-On conflict, higher wins:
+Before you edit any doc, write a claim list from code. One claim per line, with the file and symbol that proves it. Categories and the evidence to look for are in [CLAIMS.md](CLAIMS.md).
 
-1. Compiled contracts, schemas, enums, and state machines
-2. The write path that mutates the system of record
-3. Source delivery (outbox, CLI, seed, cron)
-4. Deploy config
-5. ADRs (durable intent; if code diverged, fix code or supersede the ADR)
-6. Product READMEs (how to run that product)
-7. `docs/architecture.md` and the root README (narrative over the above)
-8. Plans, work logs, skipped-work pages (historical or deferred)
+When two sources disagree, the ranking in [DOC-LAYERS.md](DOC-LAYERS.md) decides. `CONTEXT.md` is vocabulary, not behavior. Use its terms in every claim. If you cannot name the symbol, drop the claim or record it as an unknown for the report.
 
-`CONTEXT.md` is vocabulary, not behavior. Apply it as a filter on every
-other layer.
+### Diff docs
 
-Details: [DOC-LAYERS.md](DOC-LAYERS.md)
+Compare the claim list to the existing docs. Record each finding as:
 
-## 3. List claims
-
-From code, write a claim list before editing docs:
-
-- Actors and products
-- Stores and who may write each one
-- Trust boundaries (auth, tokens, public vs private)
-- Write paths and their idempotency rules
-- Workflows and illegal transitions
-- Human-decision kinds, if any
-- Deployment topology and secrets
-- Deferred work the code still does not do
-
-Each claim needs a file and symbol. No claim without evidence.
-
-## 4. Diff docs
-
-Compare the claim list to existing docs. Record:
-
-- Stale (docs say it, code does not)
-- Missing (code does it, docs do not)
-- Wrong layer (true, but in the wrong file)
-- Superseded plans (plan still describes an older topology)
+- **Stale**: docs say it, code does not
+- **Missing**: code does it, docs do not
+- **Wrong layer**: true, but in the wrong file
+- **Superseded plan**: a plan still describes an older topology
 
 Edit only after this list exists.
 
-## 5. Edit layers
+### Write
 
-Create a missing layer only when you have something to put in it. Keep
-each fact in one place:
+Each fact lives in one layer. The layer table and what belongs where are in [DOC-LAYERS.md](DOC-LAYERS.md). Create a missing layer only when you have something to put in it.
 
-| Layer | Job |
-| --- | --- |
-| Root README | Picture, status, one overview diagram, reading order |
-| CONTEXT / CONTEXT-MAP | Words. No schemas, routes, or tables |
-| `docs/architecture.md` | How data moves now |
-| `docs/adr/` | Why an expensive choice was made |
-| Product README | How to run that product |
-| Ops report | Dated, PII-free counts or fingerprints |
-| Deploy notes | Projects, secrets, migrate, seed, cron |
-| Skipped-work page | Noticed and not built. Not current architecture |
+Edit order: glossary terms, `docs/architecture.md`, ADRs that pass the gate, root README overview, docs index, product `## See also` blocks.
 
-ADR gate: hard to reverse, surprising without context, and a real
-trade-off. Skip the ADR if any of the three is missing. When you do
-write one, use the domain-modeling format.
+ADR gate: hard to reverse, surprising without context, and a real trade-off. Skip the ADR if any of the three is missing. Use the domain-modeling format.
 
-Do not keep a leftover dump inside architecture. Point at the
-skipped-work page.
+Diagrams answer one reader question each and map every node and edge to a claim. Default set in [DIAGRAM-CATALOG.md](DIAGRAM-CATALOG.md). The root README gets one thin overview. Architecture gets the rest.
 
-Edit order: glossary terms if needed, architecture, ADR if warranted,
-README overview, docs index, product See also blocks, deploy and ops
-pages only if those claims changed, skipped-work for deferred items
-removed from architecture.
+"Where new code goes" closes `docs/architecture.md`. Every entry names an existing file that already follows the pattern, and the check that enforces it or the words "convention only". Rules in DOC-LAYERS.md.
 
-Run unslop on every paragraph you add or rewrite.
+Reading path: state the reading order in the root README and in `docs/README.md` if that hub exists. Every leaf ends with `## See also`: up to README or architecture, sideways to peers, down only when the reader needs depth. Relative links only. Sentence-case headings.
 
-## 6. Draw diagrams
+Run unslop on every paragraph you add or rewrite. Write the stamp last. The format is in REFRESH.md.
 
-Few diagrams. One reader question each. Labels use CONTEXT terms.
-Map every node and edge to a claim from step 3.
+### Verify and report
 
-Default set is in [DIAGRAM-CATALOG.md](DIAGRAM-CATALOG.md). Skip a
-diagram that has nothing to show. Prefer a table for a small closed
-enum. Do not draw future components. Do not use C4 section titles.
-
-Root README gets one thin overview. Architecture gets the rest.
-
-## 7. Link the path
-
-A GitHub reader starts at `README.md`. State the reading order there
-and in `docs/README.md` if that hub exists.
-
-Every leaf ends with `## See also`: up to README or architecture,
-sideways to peers, down only when the reader needs depth. ADRs link to
-the architecture section that shows the decision in motion.
-
-Relative Markdown links only. Sentence-case headings so GitHub fragment
-IDs stay predictable. After a heading rename, grep the old slug.
-
-## 8. Verify
-
-Walk the path as a first-time reader. Spot-check each diagram against
-one code symbol. Then run the checker from this skill directory:
+Walk the path as a first-time reader. Spot-check each diagram against one symbol. Run the link checker from this skill directory:
 
 ```sh
 python3 scripts/check-markdown-links.py --root <repo-root>
 ```
 
-Fix every broken relative path and heading fragment before finishing.
+Fix every broken path and fragment, then run the checks in [DRIFT-CHECKS.md](DRIFT-CHECKS.md). Do not commit unless asked. Report:
 
-More checks: [DRIFT-CHECKS.md](DRIFT-CHECKS.md)
-
-Prose: short sentences, active voice, no em dashes. Do not commit
-unless asked.
-
-## 9. Report
-
-When done, say:
-
-- Create or refresh
-- Files added or changed
-- Claims that contradicted docs, and which source won
-- ADRs offered or skipped, with the gate result
-- Companions you loaded, and any that were missing
-- Unknowns still unresolved
-- Link-check result
-- Remaining work, on the skipped-work page, not presented as current
-
-A worked example from one capture lives in
-[WELLIS-EXAMPLE.md](WELLIS-EXAMPLE.md). Do not copy its product names
-into another repository.
+- **Mode**: for incremental, the commit range and file count; for a forced full refresh, the rule that forced it
+- **Files** added or changed
+- **Contradictions**: claims that disagreed with docs, and which source won
+- **ADRs** written or declined, with the gate result
+- **Companions** loaded, and any missing
+- **Checks**: link-check and drift-check results
+- **Unknowns**: claims you could not prove
+- **Not built**: work the code does not do. It stays in this report and appears in no doc

@@ -2,7 +2,7 @@
 
 **User-invoked**
 
-- [capture-architecture](capture-architecture/SKILL.md): reconstruct or refresh system documentation from live code
+- [capture-architecture](capture-architecture/SKILL.md): write or refresh architecture docs from live code, incrementally after the first run
 - [code-review](code-review/SKILL.md): review a diff on standards and spec in parallel
 - [grill-with-docs](grill-with-docs/SKILL.md): grill a plan while writing CONTEXT and ADRs
 - [to-spec](to-spec/SKILL.md): turn the current conversation into a spec

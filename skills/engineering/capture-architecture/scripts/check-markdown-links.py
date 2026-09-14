@@ -16,6 +16,27 @@ SPACE_RE = re.compile(r"[\s_]+")
 HYPHEN_RE = re.compile(r"-{2,}")
 MD_EMPHASIS_RE = re.compile(r"[*_`]+")
 MD_LINK_TEXT_RE = re.compile(r"\[([^\]]+)\]\([^)]+\)")
+FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})")
+INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
+
+
+def strip_code(text: str) -> str:
+    """Blank out fenced blocks and inline code so example links and headings are ignored."""
+    out: list[str] = []
+    fence: str | None = None
+    for line in text.splitlines():
+        match = FENCE_RE.match(line)
+        if fence is None and match:
+            fence = match.group(1)[0]
+            out.append("")
+            continue
+        if fence is not None:
+            if match and match.group(1)[0] == fence:
+                fence = None
+            out.append("")
+            continue
+        out.append(INLINE_CODE_RE.sub("", line))
+    return "\n".join(out)
 
 
 def github_slug(heading: str) -> str:
@@ -32,7 +53,7 @@ def github_slug(heading: str) -> str:
 def heading_slugs(path: Path) -> set[str]:
     counts: dict[str, int] = defaultdict(int)
     slugs: set[str] = set()
-    for raw in path.read_text(encoding="utf-8").splitlines():
+    for raw in strip_code(path.read_text(encoding="utf-8")).splitlines():
         match = HEADING_RE.match(raw)
         if not match:
             continue
@@ -86,7 +107,7 @@ def should_skip(target: str) -> bool:
 
 def check_file(path: Path, root: Path) -> list[str]:
     errors: list[str] = []
-    text = path.read_text(encoding="utf-8")
+    text = strip_code(path.read_text(encoding="utf-8"))
     for match in LINK_RE.finditer(text):
         raw = match.group(1).strip()
         target = raw.split()[0].strip("<>") if raw else ""
