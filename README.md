@@ -53,12 +53,13 @@ install the whole catalog.
 - [grill-me](skills/productivity/grill-me/SKILL.md): start a grilling session
 - [grilling](skills/productivity/grilling/SKILL.md): interview until the design tree is empty
 - [handoff](skills/productivity/handoff/SKILL.md): compact the conversation for the next agent
+- [reflect-and-learn](skills/productivity/reflect-and-learn/SKILL.md): reflect on the session transcript to update instructions and skills
 
 ## Origins
 
 These lines are the only origin notes in this repository.
 
-- `capture-architecture` is a WeTek skill. It was written from a live
+- `capture-architecture` and `reflect-and-learn` are WeTek skills. `capture-architecture` was written from a live
   documentation capture, then generalized.
 - `code-review`, `codebase-design`, `diagnosing-bugs`, `domain-modeling`,
   `grill-with-docs`, `to-spec`, `grill-me`, `grilling`, and `handoff` are
