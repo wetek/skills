@@ -13,3 +13,4 @@
 - [diagnosing-bugs](diagnosing-bugs/SKILL.md): diagnosis loop for hard bugs
 - [domain-modeling](domain-modeling/SKILL.md): glossary and ADRs
 - [unslop](unslop/SKILL.md): cut AI tells from writing
+- [web-ui](web-ui/SKILL.md): web UI interaction, scroll, focus, URL state, and adjustable panel guidelines
