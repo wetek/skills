@@ -33,6 +33,8 @@ Apply these rules when building or reviewing web interfaces.
 - Store list filters, search queries, pagination, and table sort order (`?sort=...&order=asc|desc`) in URL query parameters so views are bookmarkable and shareable, and expose sortable column headers on data tables where appropriate.
 - Where split panes, side sheets, or resizable modal panels are used, make them adjustable (pointer drag, keyboard arrows, double-click to reset) and persist layout sizes locally for the user.
 
-## 6. Multi-viewport and console verification
+## 6. Responsive multi-viewport, data-state, and console verification
 
-- Verify modified routes across desktop and mobile viewports (including open modals, sheets, and drawers) and inspect both the server terminal and browser console for HTTP `4xx`/`5xx` or runtime errors.
+- Verify modified routes and components across responsive screen sizes: desktop (`1440×900` to `1440×1080`), tablet (`820×1180`), large phone (`440×956`), standard phone (`390×844` / `393×852`), and compact phone (`375×667`), including open modals, sheets, and drawers.
+- Check UI changes against both deterministic seed/fixture data and real catalog or production-like API data shapes.
+- Inspect both the server terminal and browser console for HTTP `4xx`/`5xx` or runtime errors during verification.
