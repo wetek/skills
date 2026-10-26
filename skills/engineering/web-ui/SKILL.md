@@ -7,11 +7,12 @@ description: Web UI interaction, scroll, focus, URL state, and panel guidelines.
 
 Apply these rules when building or reviewing web interfaces.
 
-## 1. Synchronous submit locking
+## 1. Synchronous submit locking and async cache hydration
 
 - Lock form submissions and async action buttons synchronously on the first interaction (such as with a synchronous ref guard before async state updates flush) so rapid double-clicks cannot fire duplicate requests.
 - Render a spinner alongside a clear progress label while the action is in flight.
 - Keep the control disabled and non-interactive (`disabled`, `pointer-events-none`, `cursor-not-allowed`) until the destination view mounts or the operation settles.
+- When a view waits on an async backend generation or mutation job, keep the loading or generating state active until the downstream query cache finishes refetching (including queries for views that are temporarily unmounted or behind a modal), preventing stale or empty fallback UI from flashing before fresh data is in cache.
 
 ## 2. Explicit confirmation for destructive or high-impact actions
 
