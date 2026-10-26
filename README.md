@@ -47,6 +47,7 @@ install the whole catalog.
 - [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md): grill a plan while writing CONTEXT and ADRs
 - [to-spec](skills/engineering/to-spec/SKILL.md): turn the current conversation into a spec
 - [unslop](skills/engineering/unslop/SKILL.md): cut AI tells from writing
+- [web-ui](skills/engineering/web-ui/SKILL.md): web UI interaction, scroll, focus, URL state, and adjustable panel guidelines
 
 ### Productivity
 
