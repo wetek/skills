@@ -60,7 +60,7 @@ install the whole catalog.
 
 These lines are the only origin notes in this repository.
 
-- `capture-architecture` and `reflect-and-learn` are WeTek skills. `capture-architecture` was written from a live
+- `capture-architecture`, `reflect-and-learn`, and `web-ui` are WeTek skills. `capture-architecture` was written from a live
   documentation capture, then generalized.
 - `code-review`, `codebase-design`, `diagnosing-bugs`, `domain-modeling`,
   `grill-with-docs`, `to-spec`, `grill-me`, `grilling`, and `handoff` are
